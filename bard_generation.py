@@ -1,9 +1,8 @@
 from textbook_python import *
 
-
-class GraduationPathProblem(Problem):
-    def init(self, initial, goal, courses, prerequisites):
-        super().init(initial, goal)
+class GraduationPathProblem(Problem): # Inherit from the Problem class
+    def __init__(self, initial, goal, courses, prerequisites):
+        super().__init__(initial=initial, goal=goal)  # Call the parent class constructor
         self.courses = courses
         self.prerequisites = prerequisites
 
@@ -34,3 +33,4 @@ class GraduationPathProblem(Problem):
     def h(self, node):
         # Heuristic: estimate the remaining units to reach 120.
         return 120 - sum(self.courses[course] for course in node.state)
+    

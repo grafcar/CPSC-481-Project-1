@@ -46,6 +46,7 @@ problem = GraduationPathProblem(initial_state_new_student, goal_state, courses, 
 currentNode = Node(initial_state_new_student)
 
 # 1. check if a state is the goal state - problem.is_goal(node.state)
+print("test")
 while problem.is_goal(currentNode.state) != True:
     problem.actions(currentNode.state)
 
