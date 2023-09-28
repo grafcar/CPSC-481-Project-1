@@ -1,4 +1,3 @@
-%matplotlib inline
 import matplotlib.pyplot as plt
 import random
 import heapq
