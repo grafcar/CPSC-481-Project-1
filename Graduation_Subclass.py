@@ -1,4 +1,4 @@
-from textbook_python import *
+from superclass import *
 
 class GraduationPathProblem(Problem): # Inherit from the Problem class
     def __init__(self, initial, goal, courses, prerequisites):

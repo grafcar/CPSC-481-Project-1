@@ -1,5 +1,5 @@
-from bard_generation import *
-from textbook_python import *
+from Graduation_Subclass import *
+from superclass import *
 
 # Define the initial state (courses already taken)
 #We will use 3 different initial states to test our algorithm
@@ -47,8 +47,24 @@ currentNode = Node(initial_state_new_student)
 
 # 1. check if a state is the goal state - problem.is_goal(node.state)
 print("test")
+print(problem.actions(currentNode.state))
 while problem.is_goal(currentNode.state) != True:
-    problem.actions(currentNode.state)
+    actions = problem.actions(currentNode.state)
+    
+    #iterate through the actions and find the resulting state, cost, and heuristic value for each action
+    for action in actions:
+        resulting_state = problem.result(currentNode.state, action)
+        cost = problem.action_cost(currentNode.state, action, resulting_state)
+        heuristic_value = problem.h(currentNode)
+        total_cost = cost + heuristic_value
+        print("total cost: " + str(total_cost))
+        print("cost: " + str(cost))
+        print("heuristic value: " + str(heuristic_value))
+        print("resulting state: " + str(resulting_state))
+        print("action: " + str(action))
+        print("current node: " + str(currentNode.state))
+        print(" ")
+    
 
 
 #find the path from the initial state to the goal state - path_states(node)
