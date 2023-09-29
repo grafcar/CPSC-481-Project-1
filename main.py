@@ -1,76 +1,71 @@
 from Graduation_Subclass import *
 from superclass import *
-from download_data import prereq_dict,units_dict,type_dict
+from download_data import prereq_dict,units_dict,type_dict, course_names_list
+from courses_to_units import courses_to_units
 
 # Define the initial state (courses already taken)
 #We will use 3 different initial states to test our algorithm
-initial_state_new_student = [] # we only need courses in the state, because we can always find the units for each course and the prerequisites for each course from the courses dictionary and the prerequisites dictionary
+
+#INITIAL STATES
+initial_state_courses_new_student = [] # we only need courses in the state, because we can always find the units for each course and the prerequisites for each course from the courses dictionary and the prerequisites dictionary
+
+#int 1 = Core CS courses        - 66 units
+#int 2 = CS elective courses    - 15 units
+#int 3 = science/math elective  - 12 units
+#int 4 = general education      - 24 units
+#int 5 = graduation requirement - 3 units 
+#                         total - 120 units
+
+initial_state_unit_dict = {
+        "CS Core Course": 0,
+        "CS Electives": 0,
+        "Science/Math Elective": 0,
+        "General Education": 0,
+        "Graduation Requirement": 0
+    }
+
+#GOAL STATES
+final_state_units_dict = {
+    "CS Core Course": 66,
+    "CS Electives": 15,
+    "Science/Math Elective": 12,
+    "General Education": 24,
+    "Graduation Requirement": 3
+}
+
+final_state_courses = course_names_list
+
+
 #initial_state_transfer_student
 #initial_state_Mike_Ball 
 
-# Define the goal state (graduation requirement)
-goal_state = 120  # Total units required for graduation
-
-# Define the courses and their associated units
-courses = {
-    "CPSC120": 4,
-    "MATH150": 3,
-    # Add more courses and units as needed
-}
-
-# Define course prerequisites
-prerequisites = {
-    "CPSC121": ["CPSC120"],
-    "CPSC131": ["CPSC120"],
-    # Add more prerequisites as needed
-}
-
 # Instantiate the GraduationPathProblem
-problem = GraduationPathProblem(initial_state_new_student, goal_state, prereq_dict, units_dict)
+problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict)
 
 ############################################################################################
 
-# 0. define the root node - node.state
-# 1. check if a state is the goal state - problem.is_goal(node.state)
-# 2. find actions to take from current node - problem.actions(node.state)
-# 3. use the expand function to generate the children nodes - expand(problem, node)
-# 4. find the resulting state from taking an action - problem.result(node.state, action)
-# 5. find the cost of an action - problem.action_cost(node.state, action, resulting_state)
-# 6. find the heuristic value of a node - problem.h(node)
-# 7. combine the cost and heuristic value of each node
-# 8. choose the node with the lowest cost + heuristic value
-# 9. repeat steps 1-8 until the goal state is reached
+#0 define the root node
+#1 check if the state of the new node is the goal state
+#2 use a priority queue to find the best actions to take from the current node
+    # 2.1 find the list of all possible classes, considering prerequisites and previous courses taken already
+    # 2.2 find f-cost of each course using cost function and heuristic function
+    # 2.3 organize each course into a priority queue
+    # 2.4 pick the course that is highest in the priority queue
+    # 2.5 create priority queue again with new course
+    # 2.6 continue doing this until unit limit is reached
+#3 Create new Node and assign the new schedule to it's state
+#4 Assign new Node as the child of the previous node
+#5 Go back to step 1
 
 ############################################################################################
 
 # 0. define the initial state - node.state
-currentNode = Node(initial_state_new_student)
-
-# 1. check if a state is the goal state - problem.is_goal(node.state)
+currentNode = Node(initial_state_courses_new_student)
 print("test")
-#print(problem.actions(currentNode.state))
-#while problem.is_goal(currentNode.state) != True:
-#actions = problem.generate_all_combinations(currentNode.state)
-print("state:", currentNode.state)
-print("self.prerequisites:", problem.prerequisites)
-print("self.course_units:", problem.course_units)
+print("state:", currentNode.state_courses)
 
-#print(actions)
-#iterate through the actions and find the resulting state, cost, and heuristic value for each action
-'''
-for action in actions:
-    resulting_state = problem.result(currentNode.state, action)
-    cost = problem.action_cost(currentNode.state, action, resulting_state)
-    heuristic_value = problem.h(currentNode)
-    total_cost = heuristic_value - cost  
-    print("total cost: " + str(total_cost))
-    print("cost: " + str(cost))
-    print("heuristic value: " + str(heuristic_value))
-    print("resulting state: " + str(resulting_state))
-    print("action: " + str(action))
-    print("current node: " + str(currentNode.state))
-    print(" ")
-'''
+actions = problem.actions(currentNode.state_courses)
+print("actions:",actions)
 
 
 #find the path from the initial state to the goal state - path_states(node)

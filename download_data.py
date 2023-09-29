@@ -18,6 +18,8 @@ type_dict = df.set_index('Name')['Type'].to_dict()
 
 pp = pprint.PrettyPrinter(indent=4)
 
+course_names_list = list(prereq_dict.keys())
+
 # Print the prerequisites dictionary
 #pp.pprint(prereq_dict)
 
