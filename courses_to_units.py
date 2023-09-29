@@ -31,5 +31,9 @@ def courses_to_units(courses):
             unit_dict["General Education"] += units_dict[course]
         elif type_dict[course] == "Graduation Requirement":
             unit_dict["Graduation Requirement"] += units_dict[course]
+        else:
+            print("Something went wrong in the courses_to_units function")
+
+    return unit_dict
 
     
