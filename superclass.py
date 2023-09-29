@@ -32,7 +32,7 @@ class Node:
     def __init__(self, state_courses, parent=None, path_cost=0):
         self.__dict__.update(state_courses=state_courses, parent=parent,path_cost=path_cost)
 
-    def __repr__(self): return '<{}>'.format(self.state)
+    def __repr__(self): return '<{}>'.format(self.state_courses)
     def __len__(self): return 0 if self.parent is None else (1 + len(self.parent))
     def __lt__(self, other): return self.path_cost < other.path_cost
     
@@ -43,11 +43,14 @@ class Node:
     
 def expand(problem, node):
     "Expand a node, generating the children nodes."
-    s = node.state
-    for action in problem.actions(s):
+    s = node.state_courses
+    actions = problem.actions(node.state_courses)
+    listOfNodes = []
+    for action in actions:
         s1 = problem.result(s, action)
-        cost = node.path_cost + problem.action_cost(s, action, s1)
-        yield Node(s1, node, action, cost)
+        cost = node.path_cost + problem.action_cost(action)+ problem.depth_heuristic(action)# + balance_heuristic
+        listOfNodes.append(Node(s1, node, cost))
+    return listOfNodes
         
 
 def path_actions(node):

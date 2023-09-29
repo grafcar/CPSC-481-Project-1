@@ -1,6 +1,6 @@
 from Graduation_Subclass import *
 from superclass import *
-from download_data import prereq_dict,units_dict,type_dict, course_names_list
+from download_data import prereq_dict,units_dict,type_dict, course_names_list, depth_dict
 from courses_to_units import courses_to_units
 
 # Define the initial state (courses already taken)
@@ -40,7 +40,7 @@ final_state_courses = course_names_list
 #initial_state_Mike_Ball 
 
 # Instantiate the GraduationPathProblem
-problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict)
+problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
 
 ############################################################################################
 
@@ -70,4 +70,9 @@ actions = problem.actions(currentNode.state_courses)
 print("actions:",actions)
 
 
+single_course_nodes = expand(problem,currentNode) #generates a list of nodes which represent possible classes to add
+#print("Nodes:",expand(problem,currentNode))
+for node in single_course_nodes:
+    print("Node Course:",node.state_courses)
+    print("Node Path Cost:",node.path_cost)
 #find the path from the initial state to the goal state - path_states(node)

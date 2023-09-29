@@ -20,6 +20,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 course_names_list = list(prereq_dict.keys())
 
+depth_dict = df.set_index('Name')['Depth'].to_dict()
 # Print the prerequisites dictionary
 #pp.pprint(prereq_dict)
 
