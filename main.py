@@ -1,3 +1,5 @@
+import heapq
+import random
 from Graduation_Subclass import *
 from superclass import *
 from download_data import prereq_dict,units_dict,type_dict, course_names_list
@@ -41,7 +43,52 @@ final_state_courses = course_names_list
 
 # Instantiate the GraduationPathProblem
 problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict)
+# Initialize the priority queue to hold nodes, with the random values as priority 
+priority_queue = []
+# Initialize dictionary to store random values (for now)
+r_values = {}
 
+# Define the initial node can calculate r_value to add to priority queue
+initial_node = Node(initial_state_courses_new_student)
+r_values[tuple(initial_node.state_courses)] = random.randint(1, 100)  # Assign a random value
+heapq.heappush(priority_queue, (r_values[tuple(initial_node.state_courses)], initial_node))
+    
+print("Initial Node:", initial_node.state_courses)
+print("Initial Priority Queue:", priority_queue)
+    
+while priority_queue:
+    # get node from lowest r_value from queue
+    current_priority, currentNode = heapq.heappop(priority_queue)
+
+
+    print("Current Node:", currentNode.state_courses)
+        
+    # Check to see if current node is the goal state, break if so
+    if problem.is_goal(currentNode.state_courses):
+        print("Goal reached!")
+
+        break
+        
+    # Find possible actions and for current state
+    actions = problem.actions(currentNode.state_courses)
+    print("Available Actions:", actions)
+    #explore new states
+    for action in actions:
+        #find resulting state from action
+        resulting_state = problem.result(currentNode.state_courses, action)
+            
+        # If the resulting state is new, assign it a random f_value
+        if tuple(resulting_state) not in r_values:
+            r_values[tuple(resulting_state)] = random.randint(1, 100)
+            
+        # Create a new node and add it into the priority queue 
+        new_node = Node(resulting_state, action, currentNode)
+        heapq.heappush(priority_queue, (r_values[tuple(resulting_state)], new_node))
+
+        #print the new node and update priority queue    
+        print("New Node:", new_node.state_courses)
+        print("Updated Priority Queue:", priority_queue)
+    
 ############################################################################################
 
 #0 define the root node
@@ -59,13 +106,6 @@ problem = GraduationPathProblem(initial_state_courses_new_student, final_state_c
 
 ############################################################################################
 
-# 0. define the initial state - node.state
-currentNode = Node(initial_state_courses_new_student)
-print("test")
-print("state:", currentNode.state_courses)
-
-actions = problem.actions(currentNode.state_courses)
-print("actions:",actions)
 
 
 #find the path from the initial state to the goal state - path_states(node)

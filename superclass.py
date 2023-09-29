@@ -30,12 +30,11 @@ class Problem(object):
 class Node:
     "A Node in a search tree."
     def __init__(self, state_courses, parent=None, path_cost=0):
-        self.__dict__.update(state_courses=state_courses, parent=parent,path_cost=path_cost)
+        self.__dict__.update(state_courses=state_courses, parent=parent, path_cost=path_cost)
 
-    def __repr__(self): return '<{}>'.format(self.state)
+    def __repr__(self): return '<Node state_courses={}>'.format(self.state_courses) #changed from self.state
     def __len__(self): return 0 if self.parent is None else (1 + len(self.parent))
     def __lt__(self, other): return self.path_cost < other.path_cost
-    
     
 #failure = Node('failure', path_cost=math.inf) # Indicates an algorithm couldn't find a solution.
 #cutoff  = Node('cutoff',  path_cost=math.inf) # Indicates iterative deepening search was cut off.
