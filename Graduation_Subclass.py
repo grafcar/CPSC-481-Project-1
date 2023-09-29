@@ -51,19 +51,19 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         print("Unit Dictionary:",unit_dictionary)
         if(type_dict[action] == "Core CS Classes"):
             Core_Units_Left = 66 - unit_dictionary["Core CS Classes"]
-            return Core_Units_Left / 4
+            return -Core_Units_Left / 4
         elif(type_dict[action] == "CS Electives"):
             CS_Elective_Units_Left = 15 - unit_dictionary["CS Electives"]
-            return CS_Elective_Units_Left
+            return -CS_Elective_Units_Left / 4
         elif(type_dict[action] == "Science/Math Elective"):
             ScienceMath_Units_Left = 12 - unit_dictionary["Science/Math Elective"]
-            return ScienceMath_Units_Left
+            return -ScienceMath_Units_Left / 4
         elif(type_dict[action] == "General Education"):
             GE_Units_Left = 24 - unit_dictionary["General Education"]
-            return GE_Units_Left
+            return -GE_Units_Left / 4
         elif(type_dict[action] == "Graduation Requirement"):
             Graduation_Requirement_Units_Left = 3 - unit_dictionary["Graduation Requirement"]
-            return Graduation_Requirement_Units_Left
+            return -Graduation_Requirement_Units_Left / 4
         else:
             print("Error Occured")
             return False
