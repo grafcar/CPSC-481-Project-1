@@ -16,16 +16,14 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
     def actions(self, state):
         # Generate possible actions (courses to take) as long as they are not already taken and prerequisites are satisfied.
         actions = []
-        possible_actions = []
 
-        #things to keep in mind:
-        #courses already taken
-        #courses not yet satisfied by prerequisites
         for course in self.course_units:
-            if course not in state and all(courses in state for courses in self.prerequisites.get(course, [])):
-                possible_actions.append(course)
+            prerequisites = self.prerequisites.get(course)
+            if prerequisites is None or (prerequisites == ['None'] and course not in state) or all(prereq in state for prereq in prerequisites):
+                actions.append(course)
 
         return actions
+
 
     def result(self, state, action):
         # Return the resulting state from taking an action (taking a course).

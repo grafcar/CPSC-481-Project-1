@@ -64,6 +64,8 @@ currentNode = Node(initial_state_courses_new_student)
 print("test")
 print("state:", currentNode.state_courses)
 
+
+#print(problem.prerequisites)
 actions = problem.actions(currentNode.state_courses)
 print("actions:",actions)
 
