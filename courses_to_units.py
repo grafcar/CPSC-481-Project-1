@@ -8,7 +8,6 @@ from download_data import units_dict,type_dict
 #                         total - 120 units
 
 def courses_to_units(courses):
-    unit_list = [0,0,0,0,0]
     unit_dict = {
         "CS Core Courses": 0,
         "CS Electives": 0,
@@ -21,7 +20,7 @@ def courses_to_units(courses):
         # 5 different conditionals, testing which category the course is in
         # inside those conditionals, it finds the unit worth of the course, and adds to the tuple in the correct spot
     for course in courses:
-        if type_dict[course] == "Upper Division Core" or "Lower Division Core" or "Math Requirements":
+        if type_dict[course] in ["Upper Division Core", "Lower Division Core", "Math Requirements"]:
             unit_dict["CS Core Courses"] += units_dict[course]
         elif type_dict[course] == "CS Electives":
             unit_dict["CS Electives"] += units_dict[course]

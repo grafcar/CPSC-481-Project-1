@@ -73,6 +73,7 @@ print("actions:",actions)
 single_course_nodes = expand(problem,currentNode) #generates a list of nodes which represent possible classes to add
 #print("Nodes:",expand(problem,currentNode))
 for node in single_course_nodes:
-    print("Node Course:",node.state_courses)
-    print("Node Path Cost:",node.path_cost)
+    #print("Node Course:",node.state_courses)
+    #print("Node Path Cost:",node.path_cost)
+    pass
 #find the path from the initial state to the goal state - path_states(node)

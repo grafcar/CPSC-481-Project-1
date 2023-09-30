@@ -48,27 +48,33 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         #possible_schedule = node.state_courses + temp_list
         #print("possible schedule:",possible_schedule)
         unit_dictionary = courses_to_units(possible_schedule)
-        #print("Unit Dictionary:",unit_dictionary)
-        print("dictionary member:",type_dict[action])
+        print("Unit Dictionary:",unit_dictionary)
+        #print("dictionary member:",type_dict[action])
         if(type_dict[action] in ["Upper Division Core", "Lower Division Core", "Math Requirements"] ):
             print("Core CS Class")
             Core_Units_Left = 66 - unit_dictionary["CS Core Courses"]
+            print(unit_dictionary["CS Core Courses"])
+            print(Core_Units_Left)
             return -Core_Units_Left / 4
         elif(type_dict[action] == "CS Electives"):
             print("CS Elective")
             CS_Elective_Units_Left = 15 - unit_dictionary["CS Electives"]
+            print(CS_Elective_Units_Left)
             return -CS_Elective_Units_Left / 4
         elif(type_dict[action] == "Science/Math Elective"):
             print("Science/Math Class")
             ScienceMath_Units_Left = 12 - unit_dictionary["Science/Math Elective"]
+            print(ScienceMath_Units_Left)
             return -ScienceMath_Units_Left / 4
         elif(type_dict[action] == "General Education"):
             print("Gen Ed")
             GE_Units_Left = 24 - unit_dictionary["General Education"]
+            print(GE_Units_Left)
             return -GE_Units_Left / 4
         elif(type_dict[action] == "Graduation Requirement"):
             print("Grad Requirement")
             Graduation_Requirement_Units_Left = 3 - unit_dictionary["Graduation Requirement"]
+            print(Graduation_Requirement_Units_Left)
             return -Graduation_Requirement_Units_Left / 4
         else:
             print("Error Occured")
