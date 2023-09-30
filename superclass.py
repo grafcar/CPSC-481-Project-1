@@ -48,7 +48,7 @@ def expand(problem, node):
     listOfNodes = []
     for action in actions:
         s1 = problem.result(s, action)
-        cost = node.path_cost + problem.action_cost(action)+ problem.depth_heuristic(action)# + problem.balance_heuristic(action, actions)
+        cost = node.path_cost + problem.action_cost(action)+ problem.depth_heuristic(action) + problem.balance_heuristic(action, actions)
         listOfNodes.append(Node(s1, node, cost))
     return listOfNodes
         

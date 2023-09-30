@@ -2,7 +2,7 @@ import pandas as pd
 import pprint
 
 # Load spreadsheet
-xl = pd.ExcelFile('data.xlsx')
+xl = pd.ExcelFile('./data.xlsx')
 
 # Load a sheet into a DataFrame by its name
 df = xl.parse('Sheet1')
