@@ -29,12 +29,14 @@ class Problem(object):
 
 class Node:
     "A Node in a search tree."
-    def __init__(self, state_courses, parent=None, path_cost=0):
-        self.__dict__.update(state_courses=state_courses, parent=parent,path_cost=path_cost)
+    def __init__(self, total_courses, state_courses, g_value, h_value, parent=None):
+        self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent)
 
     def __repr__(self): return '<{}>'.format(self.state_courses)
     def __len__(self): return 0 if self.parent is None else (1 + len(self.parent))
-    def __lt__(self, other): return self.path_cost < other.path_cost
+    def __lt__(self, other):
+        # Define comparison based on the 'f_value' attribute
+        return (self.g_value+self.h_value) < (other.g_value+other.h_value)
     
     
 #failure = Node('failure', path_cost=math.inf) # Indicates an algorithm couldn't find a solution.
@@ -44,12 +46,15 @@ class Node:
 def expand(problem, node):
     "Expand a node, generating the children nodes."
     s = node.state_courses
-    actions = problem.actions(node.state_courses)
+    possible_semesters = problem.possible_semesters(problem.actions(s))
     listOfNodes = []
-    for action in actions:
-        s1 = problem.result(s, action)
-        cost = node.path_cost + problem.action_cost(action)+ problem.depth_heuristic(action) + problem.balance_heuristic(action, problem.initial)
-        listOfNodes.append(Node(s1, node, cost))
+    for semester in possible_semesters:
+        #combines courses taken so far (state of parent node) with courses in the possible semester
+        s1 = problem.result(s, semester)
+        g_value = node.g_value + problem.action_cost(semester)
+        h_value = problem.depth_heuristic(semester) + problem.semester_size_heuristic(semester) #+ problem.balance_heuristic_short_term(semester)
+        #self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent,path_cost=path_cost)
+        listOfNodes.append(Node(s1, semester, g_value,h_value, node))
     return listOfNodes
         
 

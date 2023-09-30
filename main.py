@@ -2,6 +2,7 @@ from Graduation_Subclass import *
 from superclass import *
 from download_data import prereq_dict,units_dict,type_dict, course_names_list, depth_dict
 from courses_to_units import courses_to_units
+import heapq
 
 # Define the initial state (courses already taken)
 #We will use 3 different initial states to test our algorithm
@@ -60,7 +61,8 @@ problem = GraduationPathProblem(initial_state_courses_new_student, final_state_c
 ############################################################################################
 
 # 0. define the initial state - node.state
-currentNode = Node(initial_state_courses_new_student)
+# self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent,path_cost=path_cost)
+currentNode = Node(initial_state_courses_new_student, initial_state_courses_new_student, 0, 0, None)
 print("test")
 print("state:", currentNode.state_courses)
 
@@ -68,12 +70,24 @@ print("state:", currentNode.state_courses)
 #print(problem.prerequisites)
 actions = problem.actions(currentNode.state_courses)
 print("actions:",actions)
+semesters = problem.possible_semesters(actions)
+expanded_nodes = expand(problem, currentNode)
 
+for node in expanded_nodes:
+    print("possible semester:",node.state_courses)
+    print("f-value:",node.g_value + node.h_value)
+    print("path-cost:",node.g_value)
+    print("parent:",node.parent)
+    print(" ")
 
-single_course_nodes = expand(problem,currentNode) #generates a list of nodes which represent possible classes to add
-#print("Nodes:",expand(problem,currentNode))
-for node in single_course_nodes:
-    #print("Node Course:",node.state_courses)
-    #print("Node Path Cost:",node.path_cost)
-    pass
-#find the path from the initial state to the goal state - path_states(node)
+def priorityQueue(expanded_nodes):
+    priority_queue = []
+    for node in expanded_nodes:
+        heapq.heappush(priority_queue, (node.g_value + node.h_value, node))
+    return priority_queue
+
+next_semester = heapq.heappop(priorityQueue(expanded_nodes))
+print("next semester:",next_semester)
+print("f-value:",next_semester[1].g_value + next_semester[1].h_value)
+
+print(problem.balance_heuristic_short_term(next_semester[1].state_courses))

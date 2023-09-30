@@ -25,6 +25,21 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
                     actions.append(course)
 
         return actions
+    
+    def possible_semesters(self, actions):
+        # Generate all possible semesters given possible courses to take.
+        # The semester cannot have more than 17 units and must have at least 12 units.
+        # The semesters will be represented as a list of lists of courses.
+        # The function returns a list of lists of courses.
+        valid_semesters = []
+
+        for r in range(1, min(8, len(actions) + 1)):
+            for course_combination in combinations(actions, r):
+                if sum(self.course_units[course] for course in course_combination) <= 17:
+                    valid_semesters.append(list(course_combination))
+
+        return valid_semesters
+
 
 
     def result(self, state, action):
@@ -37,14 +52,35 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
 
     def action_cost(self, a):
         # The cost of an action is the number of units of the course.
-        cost = -self.course_units[a]
+        cost = 10
         return cost
 
-    def depth_heuristic(self, a):
-        cost = -self.course_depth[a]
+    def depth_heuristic(self, semester):
+        cost = 0
+        for course in semester:
+            cost += self.course_depth[course]
+        return -cost
+    
+    def semester_size_heuristic(self,semester):
+        cost = 0
+        for course in semester:
+            cost += self.course_units[course]
+        cost = 17 - cost
         return cost
-
-    def balance_heuristic(self, action, possible_schedule):
+    
+    def balance_heuristic_short_term(self, semester):
+        #This will only check for balance within the semester
+        print("semester:",semester)
+        unit_dict = courses_to_units(semester)
+        if(unit_dict["CS Core Courses"] < 12):
+            return -3
+        else:
+            return 3
+    def balance_heuristic_long_term(self, semester, total_courses):
+        #This will check for balance considering the total courses taken
+        pass
+'''
+    def balance_heuristic_legacy(self, action, possible_schedule):
         #possible_schedule = node.state_courses + temp_list
         #print("possible schedule:",possible_schedule)
         unit_dictionary = courses_to_units(possible_schedule)
@@ -88,6 +124,8 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         #tentative: It will generate a new priority heap for every chosen class
         #The chosen classes will be put into a temporary dictionary seperate from the node state
         #The chosen class will update the unit distribution
+'''
+
 
 class courseNode:
     def __init__(self, state_courses,state_units,f_cost=None):
