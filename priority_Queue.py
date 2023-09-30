@@ -1,5 +1,5 @@
 import heapq
-#I based this code from the textbook github respitory 
+#I based this code from the priority queue code of the textbook github respitory 
 #https://github.com/aimacode/aima-python/blob/master/search4e.ipynb
 class priorityQueue:
         def __init__(self, actions):
