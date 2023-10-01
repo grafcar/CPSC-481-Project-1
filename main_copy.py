@@ -9,13 +9,33 @@ import heapq
 
 #INITIAL STATES
 initial_state_courses_new_student = [] # we only need courses in the state, because we can always find the units for each course and the prerequisites for each course from the courses dictionary and the prerequisites dictionary
-
+transfer_student_course_load = ['CPSC 120A+L', 'MATH 170A', 'CS Elective 1', 'GE 1', 'CPSC 121A+L', 'CPSC 253', 'MATH 150B', 'GE 2', 'CS Elective 2','GE 3','GE 4','CPSC 131']
+mike_ball_course_load = ['CPSC 120A+L', 'MATH 150A', 'MATH 170A', 'CS Elective 1', 'GE 1','CPSC 121A+L', 'CPSC 253', 'MATH 150B', 'CS Elective 2', 'GE 2','CPSC 131', 'MATH 170B', 'MATH 338', 'CS Elective 3', 'GE 3','CPSC 335', 'CPSC 351', 'CPSC 362', 'CS Elective 4', 'GE 4','CPSC 240','GE 5','GE 6', 'GE 7','GE 8']
 #int 1 = Core CS courses        - 66 units
 #int 2 = CS elective courses    - 15 units
 #int 3 = science/math elective  - 12 units
 #int 4 = general education      - 24 units
 #int 5 = graduation requirement - 3 units 
 #                         total - 120 units
+
+#USER INPUT
+print("Choose from 1 of 3 possible simulations:")
+print("1. New Student")
+print("2. Transfer Student")
+print("3. Mike Ball")
+userInput = input("Please enter a number: ")
+
+final_state_courses = course_names_list
+
+if userInput == "1":
+    problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
+    currentNode = Node(initial_state_courses_new_student, initial_state_courses_new_student, 0, 0, None)
+if userInput == "2":
+    problem = GraduationPathProblem(transfer_student_course_load, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
+    currentNode = Node(transfer_student_course_load, initial_state_courses_new_student, 0, 0, None)
+if userInput == "3":
+    problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
+    currentNode = Node(mike_ball_course_load, initial_state_courses_new_student, 0, 0, None)
 
 initial_state_unit_dict = {
         "CS Core Course": 0,
@@ -34,14 +54,14 @@ final_state_units_dict = {
     "Graduation Requirement": 3
 }
 
-final_state_courses = course_names_list
+
 
 
 #initial_state_transfer_student
 #initial_state_Mike_Ball 
 
 # Instantiate the GraduationPathProblem
-problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
+#problem = GraduationPathProblem(initial_state_courses_new_student, final_state_courses, prereq_dict, units_dict, type_dict,depth_dict)
 
 ############################################################################################
 
@@ -50,7 +70,7 @@ problem = GraduationPathProblem(initial_state_courses_new_student, final_state_c
 
 # 0. define the initial state - node.state
 # self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent,path_cost=path_cost)
-currentNode = Node(initial_state_courses_new_student, initial_state_courses_new_student, 0, 0, None)
+
 semester_number = 0
 
 def priorityQueue(expanded_nodes):
