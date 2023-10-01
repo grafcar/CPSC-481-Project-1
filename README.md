@@ -9,3 +9,4 @@ pip install pd
 
 pip install pandas
 
+To run the program, run it from main.py
