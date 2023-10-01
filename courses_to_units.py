@@ -32,7 +32,24 @@ def courses_to_units(courses):
             unit_dict["Graduation Requirement"] += units_dict[course]
         else:
             print("Something went wrong in the courses_to_units function")
+            print("The course that caused the error is:", course)
 
     return unit_dict
 
-    
+#dict1 should be the larger dictionary
+def subtract_unit_dicts(dict1,dict2):
+    unit_dict = {
+        "CS Core Courses": 0,
+        "CS Electives": 0,
+        "Science/Math Elective": 0,
+        "General Education": 0,
+        "Graduation Requirement": 0
+    }
+
+    unit_dict["CS Core Courses"] = dict1["CS Core Courses"] - dict2["CS Core Courses"]
+    unit_dict["CS Electives"] = dict1["CS Electives"] - dict2["CS Electives"]
+    unit_dict["Science/Math Elective"] = dict1["Science/Math Elective"] - dict2["Science/Math Elective"]
+    unit_dict["General Education"] = dict1["General Education"] - dict2["General Education"]
+    unit_dict["Graduation Requirement"] = dict1["Graduation Requirement"] - dict2["Graduation Requirement"]
+
+    return unit_dict

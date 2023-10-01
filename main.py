@@ -63,31 +63,45 @@ problem = GraduationPathProblem(initial_state_courses_new_student, final_state_c
 # 0. define the initial state - node.state
 # self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent,path_cost=path_cost)
 currentNode = Node(initial_state_courses_new_student, initial_state_courses_new_student, 0, 0, None)
-print("test")
-print("state:", currentNode.state_courses)
-
-
-#print(problem.prerequisites)
-actions = problem.actions(currentNode.state_courses)
-print("actions:",actions)
-semesters = problem.possible_semesters(actions)
-expanded_nodes = expand(problem, currentNode)
-
-for node in expanded_nodes:
-    print("possible semester:",node.state_courses)
-    print("f-value:",node.g_value + node.h_value)
-    print("path-cost:",node.g_value)
-    print("parent:",node.parent)
-    print(" ")
+semester_number = 0
 
 def priorityQueue(expanded_nodes):
     priority_queue = []
     for node in expanded_nodes:
         heapq.heappush(priority_queue, (node.g_value + node.h_value, node))
     return priority_queue
+    
+problem.distance_from_graduation(currentNode.total_courses)
+while(problem.is_goal(currentNode.total_courses) == False):
+    semester_number += 1
+    print("semester number:",semester_number)
+    print("current node state:", currentNode.state_courses)
+    print("total courses:",currentNode.total_courses)
 
-next_semester = heapq.heappop(priorityQueue(expanded_nodes))
-print("next semester:",next_semester)
-print("f-value:",next_semester[1].g_value + next_semester[1].h_value)
 
-print(problem.balance_heuristic_short_term(next_semester[1].state_courses))
+    #print(problem.prerequisites)
+    actions = problem.actions(currentNode.total_courses)
+    print("actions:",actions)
+    expanded_nodes = expand(problem, currentNode)
+    '''
+    for node in expanded_nodes:
+        print("possible semester:",node.state_courses)
+        print("f-value:",node.g_value + node.h_value)
+        print("path-cost:",node.g_value)
+        print("parent:",node.parent)
+        print(" ")
+    '''
+
+    if semester_number == 1:
+        TOTAL_PRIORITY_QUEUE = priorityQueue(expanded_nodes)
+    else:
+        combined_pq = list(heapq.merge(TOTAL_PRIORITY_QUEUE,priorityQueue(expanded_nodes) ))
+        TOTAL_PRIORITY_QUEUE = combined_pq
+
+    next_semester = heapq.heappop(TOTAL_PRIORITY_QUEUE)
+    print("next semester:",next_semester)
+    print("f-value:",next_semester[1].g_value + next_semester[1].h_value)
+    currentNode = next_semester[1]
+    #currentNode.total_courses = next_semester[1] + currentNode.total_courses  
+    #print("LOOK HERE",next_semester)
+
