@@ -26,6 +26,7 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         # Generate possible actions (courses to take) as long as they are not already taken and prerequisites are satisfied.
         actions = []
 
+        #This was pretty much all chatGPT
         for course in self.course_units:
             if course not in state:
                 prerequisites = self.prerequisites.get(course)
@@ -41,6 +42,7 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         # The function returns a list of lists of courses.
         valid_semesters = []
 
+        #This was pretty much all chatGPT
         for r in range(1, min(8, len(actions) + 1)):
             for course_combination in combinations(actions, r):
                 if sum(self.course_units[course] for course in course_combination) <= 17:
@@ -106,9 +108,4 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         cost += classes_left["General Education"]
         cost += classes_left["Graduation Requirement"]
         return cost
-
-            
-    def balance_heuristic_long_term(self, semester, total_courses):
-        #This will check for balance considering the total courses taken
-        pass
 
