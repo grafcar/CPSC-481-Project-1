@@ -52,7 +52,7 @@ def expand(problem, node):
         #combines courses taken so far (state of parent node) with courses in the possible semester
         s1 = problem.result(s, semester)
         g_value = node.g_value + problem.action_cost(semester)
-        h_value = problem.depth_heuristic(semester) + problem.semester_size_heuristic(semester) + problem.balance_heuristic_short_term(semester) + problem.distance_from_graduation(s1)
+        h_value = problem.depth_heuristic(semester) + problem.semester_size_heuristic(semester) + problem.balance_heuristic_short_term(semester) + problem.distance_from_graduation(s1) + problem.goal_heuristic(s1)
         #self.__dict__.update(total_courses = total_courses, state_courses=state_courses, g_value = g_value, h_value = h_value, parent=parent,path_cost=path_cost)
         listOfNodes.append(Node(s1, semester, g_value, h_value, node))
     return listOfNodes

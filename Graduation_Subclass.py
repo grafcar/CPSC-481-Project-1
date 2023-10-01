@@ -76,6 +76,13 @@ class GraduationPathProblem(Problem): # Inherit from the Problem class
         cost = 17 - cost
         return cost
     
+    def goal_heuristic(self, courses_so_far):
+        cost = 0
+        if(len(courses_so_far) == len(self.goal)):
+            return -100
+        else:
+            return 0
+    
     def balance_heuristic_short_term(self, semester):
         #This will only check for balance within the semester
         cost = 0

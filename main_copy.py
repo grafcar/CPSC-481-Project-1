@@ -60,12 +60,13 @@ def priorityQueue(expanded_nodes):
     return priority_queue
     
 problem.distance_from_graduation(currentNode.total_courses)
-print("final state:",final_state_courses)
+#print("final state:",final_state_courses)
 while(problem.is_goal(currentNode.total_courses) == False):
+    #print("semester number:",semester_number)
+    if(semester_number > 0):
+        print(str(semester_number)+"th semester:", currentNode.state_courses)
     semester_number += 1
-    print("semester number:",semester_number)
-    print("current node state:", currentNode.state_courses)
-    print("total courses:",currentNode.total_courses)
+    #print("total courses:",currentNode.total_courses)
     #print(len(currentNode.total_courses))
     #print(final_state_courses)
     #print(len(final_state_courses))
@@ -75,11 +76,9 @@ while(problem.is_goal(currentNode.total_courses) == False):
 
     #print(problem.prerequisites)
     actions = problem.actions(currentNode.total_courses)
-    print("actions:",actions)
+    #print("actions:",actions)
     expanded_nodes = expand(problem, currentNode)
 
-    if semester_number >= 7:
-        print(expanded_nodes)
 
     if semester_number == 1:
         TOTAL_PRIORITY_QUEUE = priorityQueue(expanded_nodes)
@@ -93,10 +92,10 @@ while(problem.is_goal(currentNode.total_courses) == False):
 
     next_semester = heapq.heappop(TOTAL_PRIORITY_QUEUE)
 
-    print("next semester:",next_semester)
-    print("f-value:",next_semester[1].g_value + next_semester[1].h_value)
+    #print("next semester:",next_semester)
+    #print("f-value:",next_semester[1].g_value + next_semester[1].h_value)
     currentNode = next_semester[1]
     #currentNode.total_courses = next_semester[1] + currentNode.total_courses  
     #print("LOOK HERE",next_semester)
-
+print(str(semester_number)+"th Semester:",currentNode.state_courses)
 print("SUCCESS")
